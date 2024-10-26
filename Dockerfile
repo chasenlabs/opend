@@ -16,6 +16,10 @@ ENV OPEND_PREFIX Futu_OpenD_${OPEND_VERSION}_Ubuntu16.04
 # https://softwaredownload.futunn.com/Futu_OpenD_8.6.4608_Ubuntu16.04.tar.gz
 ENV OPEND_URL https://softwaredownload.futunn.com/${OPEND_FILE}
 
+COPY docker-entrypoint.sh .
+
+WORKDIR ${OPEND_DIR}
+
 RUN apt-get update && apt-get install -y \
     curl \
     tar \
@@ -27,4 +31,4 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /tmp/* \
     && rm -rf /var/lib/apt/lists/*
 
-CMD ["docker-entrypoint.sh"]
+CMD ["/docker-entrypoint.sh"]

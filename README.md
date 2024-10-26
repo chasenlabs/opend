@@ -2,6 +2,19 @@
 
 using docker to run Futu OpenD
 
+## Configuration
+
+run command in docker container, or see [Futu API](https://openapi.futunn.com/futu-api-doc/opend/opend-cmd.html#8799)
+
+```shell
+cat FutuOpend.xml
+```
+
+md5 your password
+
+```shell
+md5 -s <your_password>
+```
 
 ## Support
 

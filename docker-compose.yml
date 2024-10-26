@@ -1,0 +1,10 @@
+
+services:
+  futu-opend:
+    image: ghcr.io/chasenlabs/futu-opend:latest
+    container_name: futu-opend
+    restart: always
+    ports:
+      - 11111:11111
+    volumes:
+      - ./FutuOpenD.xml:/opend/FutuOpenD.xml
