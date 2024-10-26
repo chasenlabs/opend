@@ -39,8 +39,12 @@ jobs:
             images: |
               ghcr.io/${{ github.repository }}
             tags: |
-              type=raw,value=latest
+              type=ref,event=branch
+              type=ref,event=pr
+              type=semver,pattern={{version}}
+              type=semver,pattern={{major}}.{{minor}}
               type=raw,value=${{ github.run_id }}
+              type=raw,value=latest
 
         - name: Build and push
           uses: docker/build-push-action@v4
@@ -48,7 +52,7 @@ jobs:
               context: .
               file: ./Dockerfile
               push: true
-              tags: ghcr.io/${{ github.repository }}:${{ steps.meta.outputs.tags }}
+              tags: ${{ steps.meta.outputs.tags }}
               labels: |
                 org.opencontainers.image.title=futu-opend
                 org.opencontainers.image.description=The futu-opend image
