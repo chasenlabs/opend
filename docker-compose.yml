@@ -3,8 +3,18 @@ services:
   futu-opend:
     image: ghcr.io/chasenlabs/futu-opend:latest
     container_name: futu-opend
-    restart: always
+    restart: unless-stopped
     ports:
       - 11111:11111
+    # https://openapi.futunn.com/futu-api-doc/opend/opend-cmd.html#8799
     volumes:
       - ./FutuOpenD.xml:/opend/FutuOpenD.xml
+#   or https://openapi.futunn.com/futu-api-doc/opend/opend-cmd.html#465
+#    command:
+#      - /docker-entrypoint.sh
+#      - -login_account=<account number>
+#      - -login_pwd_md5=<md5 string>
+#      - -api_port=11111
+#      - -api_ip=0.0.0.0
+#      - -telnet_port=22222
+#      - -lang=en=en

@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 # metadata
 LABEL maintainer="ChasenLbas <chasen.space@gmail.com>"
@@ -23,6 +23,7 @@ WORKDIR ${OPEND_DIR}
 RUN apt-get update && apt-get install -y \
     curl \
     tar \
+    telnet \
     && curl -o /tmp/futu-opend.tar.gz ${OPEND_URL} \
     && tar -zxvf /tmp/futu-opend.tar.gz -C /tmp/ \
     && mkdir -p ${OPEND_DIR} \
