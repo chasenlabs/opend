@@ -63,7 +63,6 @@ jobs:
           with:
             images: |
               ghcr.io/chasenlabs/futu-opend
-              ghcr.io/chasenlabs/futunn
             tags: |
               type=ref,event=branch
               type=ref,event=pr
@@ -112,7 +111,6 @@ jobs:
           with:
             images: |
               ghcr.io/chasenlabs/moomoo-opend
-              ghcr.io/chasenlabs/moomoo
             tags: |
               type=ref,event=branch
               type=ref,event=pr
