@@ -2,10 +2,8 @@
 
 set -x
 
-echo "Futu OpenD Install Dir: $OPEND_DIR"
-
-BIN="$OPEND_DIR/FutuOpenD"
+echo "Futu OpenD Install Dir: ${OPEND_BIN}"
 
 # Start OpenD
-echo "Starting OpenD..."
-exec "${BIN}" "$@"
+echo "Starting ${OPEND_BIN}..."
+exec "${OPEND_BIN}" "$@"

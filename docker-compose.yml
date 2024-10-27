@@ -1,7 +1,8 @@
 
 services:
-  futu-opend:
+  opend:
     image: ghcr.io/chasenlabs/futu-opend:latest
+    #image: ghcr.io/chasenlabs/moomoo-opend:latest # moomoo
     container_name: futu-opend
     restart: unless-stopped
     ports:
@@ -9,6 +10,7 @@ services:
     # https://openapi.futunn.com/futu-api-doc/opend/opend-cmd.html#8799
     volumes:
       - ./FutuOpenD.xml:/opend/FutuOpenD.xml
+#      - ./OpenD.xml:/opend/OpenD.xml # moomoo
 #   or https://openapi.futunn.com/futu-api-doc/opend/opend-cmd.html#465
 #    command:
 #      - /docker-entrypoint.sh
@@ -17,4 +19,4 @@ services:
 #      - -api_port=11111
 #      - -api_ip=0.0.0.0
 #      - -telnet_port=22222
-#      - -lang=en=en
+#      - -lang=en

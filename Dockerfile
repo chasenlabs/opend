@@ -1,20 +1,27 @@
 FROM ubuntu:22.04
 
+ARG BRAND=unspecified
+ARG DOMAIN=unspecified
+ARG BUILD_OPEND_VERSION=8.6.4608
+ARG OPEND_DIR=/opend
+ARG BIN_NAME=OpenD
+
 # metadata
-LABEL maintainer="ChasenLbas <chasen.space@gmail.com>"
-LABEL description="Futu OpenD Docker Image"
+LABEL org.opencontainers.image.maintainer="ChasenLbas <chasen.space@gmail.com>"
+LABEL org.opencontainers.image.description="${BRAND} OpenD Docker Image"
 
-ENV LANG C.UTF-8
-
-# Futu_OpenD_8.6.4608_Ubuntu16.04.tar.gz
-ENV OPEND_VERSION 8.6.4608
-ENV OPEND_FILE Futu_OpenD_${OPEND_VERSION}_Ubuntu16.04.tar.gz
-ENV OPEND_DIR /opend
-ENV OPEND_PREFIX Futu_OpenD_${OPEND_VERSION}_Ubuntu16.04
+# xxxx_OpenD_8.6.4608_Ubuntu16.04.tar.gz
+ARG OPEND_PREFIX=${BRAND}_OpenD_${BUILD_OPEND_VERSION}_Ubuntu16.04
+ARG OPEND_FILE=${OPEND_PREFIX}.tar.gz
 
 # Download OpenD package
 # https://softwaredownload.futunn.com/Futu_OpenD_8.6.4608_Ubuntu16.04.tar.gz
-ENV OPEND_URL https://softwaredownload.futunn.com/${OPEND_FILE}
+# https://softwaredownload.futustatic.com/moomoo_OpenD_8.6.4608_Ubuntu16.04.tar.gz
+ARG OPEND_URL=https://softwaredownload.${DOMAIN}/${OPEND_FILE}
+
+ENV OPEND_VERSION  ${BUILD_OPEND_VERSION}
+ENV LANG C.UTF-8
+ENV OPEND_BIN ${OPEND_DIR}/${BIN_NAME}
 
 COPY docker-entrypoint.sh .
 
@@ -24,8 +31,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     tar \
     telnet \
-    && curl -o /tmp/futu-opend.tar.gz ${OPEND_URL} \
-    && tar -zxvf /tmp/futu-opend.tar.gz -C /tmp/ \
+    && curl -o /tmp/opend.tar.gz ${OPEND_URL} \
+    && tar -zxvf /tmp/opend.tar.gz -C /tmp/ \
     && mkdir -p ${OPEND_DIR} \
     && ls /tmp/ \
     && cp -r /tmp/${OPEND_PREFIX}/${OPEND_PREFIX}/* ${OPEND_DIR} \
