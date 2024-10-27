@@ -2,8 +2,6 @@ name: Build
 
 on:
   push:
-    branches:
-      - master
 
     tags:
       - v*
@@ -12,17 +10,41 @@ on:
 
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
   packages: write
 
 
 jobs:
-    build:
+    release:
+      runs-on: ubuntu-latest
+      timeout-minutes: 30
+      needs:
+        - futu
+        - moomoo
+      concurrency:
+        group: ${{ github.workflow }}-${{ github.ref }}-build
+        cancel-in-progress: true
+      if: startsWith(github.ref, 'refs/tags/')
+      steps:
+        - uses: actions/checkout@v3
+
+        - name: Create Release
+          uses: softprops/action-gh-release@v2
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          if: startsWith(github.ref, 'refs/tags/')
+          with:
+            draft: false
+            prerelease: false
+            name: ${{ github.ref_name }}
+            tag_name: ${{ github.ref_name }}
+
+    futu:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         concurrency:
-          group: ${{ github.workflow }}-${{ github.ref }}-build
+          group: ${{ github.workflow }}-${{ github.ref }}-futu
           cancel-in-progress: true
 
         steps:
@@ -40,7 +62,8 @@ jobs:
           uses: docker/metadata-action@v4
           with:
             images: |
-              ghcr.io/${{ github.repository }}
+              ghcr.io/chasenlabs/futu-opend
+              ghcr.io/chasenlabs/futunn
             tags: |
               type=ref,event=branch
               type=ref,event=pr
@@ -54,9 +77,62 @@ jobs:
           with:
               context: .
               file: ./Dockerfile
+              build-args: |
+                BRAND=Futu
+                DOMAIN=futunn.com
+                BIN_NAME=FutuOpenD
               push: true
               tags: ${{ steps.meta.outputs.tags }}
               labels: |
                 org.opencontainers.image.title=futu-opend
                 org.opencontainers.image.description=The futu-opend image
                 org.opencontainers.image.source=github.com/${{ github.repository }}
+
+
+    moomoo:
+      runs-on: ubuntu-latest
+      timeout-minutes: 30
+      concurrency:
+        group: ${{ github.workflow }}-${{ github.ref }}-moomoo
+        cancel-in-progress: true
+
+      steps:
+        - uses: actions/checkout@v3
+
+        - name: Login to GitHub Container Registry
+          uses: docker/login-action@v2
+          with:
+            registry: ghcr.io
+            username: ${{ github.actor }}
+            password: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Docker meta
+          id: meta
+          uses: docker/metadata-action@v4
+          with:
+            images: |
+              ghcr.io/chasenlabs/moomoo-opend
+              ghcr.io/chasenlabs/moomoo
+            tags: |
+              type=ref,event=branch
+              type=ref,event=pr
+              type=semver,pattern={{version}}
+              type=semver,pattern={{major}}.{{minor}}
+              type=raw,value=${{ github.run_id }}
+              type=raw,value=latest
+
+
+        - name: Build and push
+          uses: docker/build-push-action@v4
+          with:
+            context: .
+            file: ./Dockerfile
+            build-args: |
+              BRAND=moomoo
+              DOMAIN=futustatic.com
+            push: true
+            tags: ${{ steps.meta.outputs.tags }}
+            labels: |
+              org.opencontainers.image.title=moomoo-opend
+              org.opencontainers.image.description=The moomoo-opend image
+              org.opencontainers.image.source=github.com/${{ github.repository }}
