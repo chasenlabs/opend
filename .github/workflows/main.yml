@@ -23,7 +23,7 @@ jobs:
         - futu
         - moomoo
       concurrency:
-        group: ${{ github.workflow }}-${{ github.ref }}-build
+        group: ${{ github.workflow }}-${{ github.ref }}-release
         cancel-in-progress: true
       if: startsWith(github.ref, 'refs/tags/')
       steps:
