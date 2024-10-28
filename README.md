@@ -76,6 +76,25 @@ telnet 127.0.0.1 22222
 input_phone_verify_code -code=<code>
 ```
 
+## Self Build
+
+```shell
+# futu
+docker build \ 
+  --build-arg BRAND=Futu \
+  --build-arg DOMAIN=futunn.com \
+  --build-arg BIN_NAME=FutuOpenD \
+  -t futu-opend \ 
+  -f Dockerfile .
+
+# moomoo
+docker build \ 
+  --build-arg BRAND=moomoo \
+  --build-arg DOMAIN=futustatic.com \
+  -t futu-opend \ 
+  -f Dockerfile .
+```
+
 ## Testing
 
 testing prepare
