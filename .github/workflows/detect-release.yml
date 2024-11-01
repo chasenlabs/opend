@@ -23,6 +23,8 @@ jobs:
 
       - name: Commit and Create PR
         if: ${{ steps.detect.outputs.version != 'no-update' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           Branch=topic/detect/update-opend-version
           git config --global user.name "github-actions[bot]"
