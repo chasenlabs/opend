@@ -1,7 +1,9 @@
 name: Detect Release
 
-
 on:
+  schedule:
+    - cron: "0 16 * * *"
+
   workflow_dispatch:
 
 permissions:
