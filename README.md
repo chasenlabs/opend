@@ -78,6 +78,12 @@ input_phone_verify_code -code=<code>
 
 ## Self Build
 
+clone the repo
+
+```shell
+git clone https://github.com/chasenlabs/opend.git
+```
+
 ```shell
 # futu
 docker build \ 
