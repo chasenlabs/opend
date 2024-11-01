@@ -29,4 +29,4 @@ jobs:
         if: ${{ steps.parse.outputs.version != '' }}
         uses: jaywcjlove/create-tag-action@v2.2.0
         with:
-          tag: ${{ steps.hook.outputs.version }}
+          tag: ${{ steps.parse.outputs.version }}
