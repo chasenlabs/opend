@@ -14,6 +14,8 @@ jobs:
     if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       # get version from pull request title
       - id: parse
