@@ -28,9 +28,8 @@ jobs:
           Branch=topic/detect/update-opend-version
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          echo "\n" >> Dockerfile
           git add Dockerfile
           git commit -m "Update OpenD version to ${{ steps.detect.outputs.version }}"
           git checkout -b $Branch
           git push --set-upstream origin $Branch
-          gh pr create --title "Update OpenD version to ${{ steps.detect.outputs.version }}" --body "Update OpenD version to ${{ steps.detect.outputs.version }}" --base master --head $Branch
+          gh pr create --title "Update OpenD version to `${{ steps.detect.outputs.version }}`" --body "Update OpenD version to `${{ steps.detect.outputs.version }}`" --base master --head $Branch

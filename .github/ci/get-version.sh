@@ -18,6 +18,6 @@ if [ "$Version" != "$SourceVersion" ]; then # need to update
   echo "version=$Version"
   sed -i -e "s/$SourceVersion/${Version}/g" Dockerfile
 else
-  echo "version=no-updat"
+  echo "version=no-update"
 fi
 
