@@ -8,9 +8,6 @@ on:
     types:
       - closed
 
-permissions:
-  contents: write
-
 jobs:
   hook:
     name: 'Create Tag'
@@ -33,4 +30,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git tag -a v${{ steps.parse.outputs.version }} -m "Upgrade to v${{ steps.parse.outputs.version }}"
-          git push origin v${{ steps.parse.outputs.version }}
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }} # because github disable GITHUB_TOKEN push event
+          push_only_tags: true
+          force: true
+          tags: true
