@@ -2,17 +2,16 @@ name: Detect Release
 
 on:
   schedule:
-    - cron: "0 16 * * *"
+    - cron: "0 8 * * *"
 
   workflow_dispatch:
-
-permissions:
-  pull-requests: write
-  contents: write
 
 jobs:
   detect:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - name: Detect Release
