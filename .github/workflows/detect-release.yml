@@ -6,10 +6,6 @@ on:
 
   workflow_dispatch:
 
-permissions:
-  pull-requests: write
-  contents: write
-
 jobs:
   detect:
     runs-on: ubuntu-latest
