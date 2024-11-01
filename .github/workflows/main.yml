@@ -2,15 +2,12 @@ name: Build
 
 on:
   push:
-
     branches:
       - release/**
-
     tags:
       - v*
 
   workflow_dispatch:
-
 
 permissions:
   contents: write
