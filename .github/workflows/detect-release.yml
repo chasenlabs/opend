@@ -1,0 +1,33 @@
+name: Detect Release
+
+on:
+  schedule:
+    - cron: "0 16 * * *"
+
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Detect Release
+        id: detect
+        run: |
+          make version >> $GITHUB_OUTPUT
+
+      - name: Commit and Create PR
+        if: ${{ steps.detect.outputs.version != 'no-update' }}
+        run: |
+          Branch=topic/detect/update-opend-version
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add Dockerfile
+          git commit -m "Update OpenD version to ${{ steps.detect.outputs.version }}"
+          git checkout -b $Branch
+          git push --set-upstream origin $Branch
+          gh pr create --title "Update OpenD version to ${{ steps.detect.outputs.version }}" --body "Update OpenD version to ${{ steps.detect.outputs.version }}" --base master --head $Branch
