@@ -2,7 +2,7 @@ name: Detect Release
 
 on:
   schedule:
-    - cron: "0 8 * * *"
+    - cron: "0 9 * * 1-5"
 
   workflow_dispatch:
 
@@ -12,6 +12,7 @@ jobs:
     permissions:
       pull-requests: write
       contents: write
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - name: Detect Release
