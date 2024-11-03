@@ -22,8 +22,8 @@ jobs:
         run: |
           commit_message="${{ github.event.pull_request.title }}"
           Version=$(echo "$commit_message" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | true)
+          echo "version=${Version}"
           echo "version=${Version}" >> $GITHUB_OUTPUT 
-          echo "::set-output name=version::${Version}"
 
       - name: Create Tag
         if: ${{ steps.parse.outputs.version != '' }}
@@ -34,6 +34,7 @@ jobs:
 
       - name: Push changes
         uses: ad-m/github-push-action@master
+        if: ${{ steps.parse.outputs.version != '' }}
         with:
           github_token: ${{ secrets.PAT_TOKEN }} # because github disable GITHUB_TOKEN push event
           push_only_tags: true
