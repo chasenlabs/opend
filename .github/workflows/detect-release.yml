@@ -19,13 +19,13 @@ jobs:
         id: detect
         run: |
           make version >> $GITHUB_OUTPUT
-          make version
 
       - name: Commit and Create PR
         if: ${{ steps.detect.outputs.version != 'no-update' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          echo "version=${{ steps.detect.outputs.version }}"
           Branch=topic/detect/update-opend-version
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
