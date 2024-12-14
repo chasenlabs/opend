@@ -15,6 +15,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+
       - name: Detect Release
         id: detect
         run: |
@@ -25,12 +26,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "version=${{ steps.detect.outputs.version }}"
-          Branch=topic/detect/update-opend-version
+          version=${{ steps.detect.outputs.version }}
+          echo "detect version=${version}"
+          Branch=topic/detect/release-$(uuidgen)
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add Dockerfile
-          git commit -m "(≧ω≦): upgrade OpenD version to `${{ steps.detect.outputs.version }}`"
+          git commit -m "(≧ω≦): upgrade OpenD version to \`${version}\`"
           git checkout -b $Branch
           git push --set-upstream origin $Branch
           gh pr create --base master --fill
